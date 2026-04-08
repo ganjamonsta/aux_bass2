@@ -71,7 +71,14 @@ WEB_PORT=3000
 JWT_SECRET=replace-with-a-long-random-secret
 ```
 
-Everything else can stay placeholder for now because the current preview does not yet depend on Postgres, Redis, Telegram auth, or object storage.
+`NEXT_PUBLIC_APP_URL` must be a full absolute URL with protocol. `https://aux.ganj4craft.ru` is valid, `aux.ganj4craft.ru` is not.
+
+Telegram sign-in in the current preview also requires:
+
+- `TELEGRAM_BOT_TOKEN`
+- `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`
+
+If you want the Mini App to open from the bot itself, the bot must expose the app through a Telegram `web_app` button or menu button. Opening the site as a plain link inside Telegram will not provide Mini App `initData`, so automatic Telegram auth cannot happen.
 
 The deploy stack uses public ECR image mirrors instead of Docker Hub because Docker Hub pulls may be blocked from your server region.
 

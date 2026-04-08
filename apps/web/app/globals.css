@@ -209,6 +209,13 @@ body {
   color: #8f2e2e;
 }
 
+.auth-callout {
+  padding: 14px;
+  border: 1px solid rgba(214, 123, 56, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 247, 238, 0.85);
+}
+
 .widget-host {
   min-height: 50px;
 }
@@ -230,6 +237,16 @@ body {
 
 .action-button:hover {
   background: #185b42;
+}
+
+.action-button-secondary {
+  background: rgba(25, 35, 29, 0.08);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.action-button-secondary:hover {
+  background: rgba(25, 35, 29, 0.14);
 }
 
 .panel-kicker {

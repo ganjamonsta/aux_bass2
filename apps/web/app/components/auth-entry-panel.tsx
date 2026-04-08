@@ -33,8 +33,28 @@ declare global {
   }
 }
 
+interface LaunchFallbackState {
+  botLink: string | null;
+  needsTelegramLaunch: boolean;
+}
+
 function getApiBaseUrl(): string {
   return (process.env.NEXT_PUBLIC_API_URL ?? "/api").replace(/\/$/, "");
+}
+
+function getBotUsername(): string | null {
+  const value = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim();
+
+  return value ? value.replace(/^@/, "") : null;
+}
+
+function getLaunchFallbackState(context: TelegramLaunchContext): LaunchFallbackState {
+  const botUsername = getBotUsername();
+
+  return {
+    botLink: botUsername ? `https://t.me/${botUsername}` : null,
+    needsTelegramLaunch: context.isTelegramMiniApp && !context.initData,
+  };
 }
 
 function mapTelegramWidgetUser(user: TelegramWidgetUser): TelegramLoginAuthExchangeRequest {
@@ -74,6 +94,10 @@ async function fetchJson<T>(input: RequestInfo | URL, init?: RequestInit): Promi
   });
 
   if (!response.ok) {
+    if (response.status === 502) {
+      throw new Error("API is unavailable (502). Check that the api container is running and reachable by nginx.");
+    }
+
     throw new Error(await readErrorMessage(response));
   }
 
@@ -136,6 +160,12 @@ export function AuthEntryPanel() {
     setErrorMessage(null);
     setPhase("loading");
 
+    if (context.isTelegramMiniApp && !context.initData) {
+      setSessionStatus(null);
+      setPhase("ready");
+      return;
+    }
+
     try {
       const nextStatus =
         context.isTelegramMiniApp && context.initData
@@ -194,8 +224,12 @@ export function AuthEntryPanel() {
     }
   }
 
-  const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.trim() ?? "";
+  const botUsername = getBotUsername() ?? "";
   const actor = sessionStatus?.status === "authenticated" ? sessionStatus.actor : null;
+  const launchFallback = getLaunchFallbackState(launchContext);
+  const shouldShowTelegramLaunchNote = !actor && launchFallback.needsTelegramLaunch;
+  const shouldShowBrowserWidget =
+    !launchContext.isTelegramMiniApp && phase === "ready" && sessionStatus?.status !== "authenticated" && !!botUsername;
 
   return (
     <article className="panel auth-panel">
@@ -235,13 +269,40 @@ export function AuthEntryPanel() {
           <p className="auth-copy auth-copy-secondary">
             The API now issues cookie-backed sessions persisted in Postgres and exposes them via /api/auth/session.
           </p>
-          {!launchContext.isTelegramMiniApp && botUsername ? (
+          {shouldShowTelegramLaunchNote ? (
+            <div className="auth-callout">
+              <p className="auth-note">
+                Telegram opened the page without Mini App auth context. Open the app from the bot menu button or a
+                `startapp`/`web_app` entry point so Telegram provides initData.
+              </p>
+              {launchFallback.botLink ? (
+                <div className="action-row">
+                  <a className="action-button" href={launchFallback.botLink} rel="noreferrer" target="_blank">
+                    Open bot chat
+                  </a>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {shouldShowBrowserWidget ? (
             <div className="widget-host" ref={widgetHostRef} />
           ) : null}
           {!launchContext.isTelegramMiniApp && !botUsername ? (
             <p className="auth-note">
               Set NEXT_PUBLIC_TELEGRAM_BOT_USERNAME to render the browser login widget.
             </p>
+          ) : null}
+          {phase === "error" ? (
+            <div className="action-row">
+              <button className="action-button" onClick={() => void bootstrap(launchContext)} type="button">
+                Retry session
+              </button>
+              {launchFallback.botLink ? (
+                <a className="action-button action-button-secondary" href={launchFallback.botLink} rel="noreferrer" target="_blank">
+                  Open bot
+                </a>
+              ) : null}
+            </div>
           ) : null}
         </>
       )}
