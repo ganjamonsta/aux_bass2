@@ -33,15 +33,15 @@ services:
     restart: unless-stopped
 
   caddy:
-    image: caddy:2.9-alpine
+    image: public.ecr.aws/docker/library/caddy:2.9-alpine
     depends_on:
       - web
       - api
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      DOMAIN: ${DOMAIN}
+    env_file:
+      - ../.env
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data

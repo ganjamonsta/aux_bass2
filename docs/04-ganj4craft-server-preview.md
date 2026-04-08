@@ -73,6 +73,8 @@ JWT_SECRET=replace-with-a-long-random-secret
 
 Everything else can stay placeholder for now because the current preview does not yet depend on Postgres, Redis, Telegram auth, or object storage.
 
+The deploy stack uses public ECR image mirrors instead of Docker Hub because Docker Hub pulls may be blocked from your server region.
+
 ## 4. Start The Preview Stack
 
 On the server:

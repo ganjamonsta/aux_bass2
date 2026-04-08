@@ -24,6 +24,8 @@ The preview stack serves:
 - API under `https://DOMAIN/api/*`
 - automatic HTTPS via Caddy
 
+The container images use public ECR mirrors instead of Docker Hub so the preview can still build on servers where Docker Hub is blocked.
+
 ## Server Requirements
 
 - Linux server with Docker and Docker Compose plugin
