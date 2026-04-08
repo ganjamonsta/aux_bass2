@@ -147,7 +147,7 @@ sudo systemctl reload nginx
 
 1. If the old player still has its own enabled site for the same domain, disable that old site before reloading nginx.
 
-	The most likely conflicting site on this server is `tgplayer.conf`, because it also declares `server_name aux.ganj4craft.ru`.
+The most likely conflicting site on this server is `tgplayer.conf`, because it also declares `server_name aux.ganj4craft.ru`.
 
 1. Verify the new containers directly before testing the public domain:
 
