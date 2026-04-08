@@ -168,11 +168,15 @@ The most likely conflicting site on this server is `tgplayer.conf`, because it a
 1. Verify the new containers directly before testing the public domain:
 
 ```bash
+bash deploy/compose-host-nginx-preview.sh ps
+bash deploy/compose-host-nginx-preview.sh logs --tail=200 api
 curl -I http://127.0.0.1:3100/
 curl http://127.0.0.1:4100/api/health
 ```
 
 If localhost works but the public domain still returns `404`, the remaining problem is your active nginx site configuration rather than the containers.
+
+If your server only has the standalone `docker-compose` binary, use the helper scripts above instead of raw `docker compose ...` commands. They automatically select the available Compose CLI.
 
 ## 6. Updating Later
 
