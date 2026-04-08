@@ -129,6 +129,73 @@ export interface PlaybackSession {
   activeTrackId: string | null;
 }
 
+export type AuthProvider = "telegram-mini-app" | "telegram-login-widget";
+
+export type AuthLaunchMode = "telegram-mini-app" | "web";
+
+export interface AuthUser {
+  id: string;
+  displayName: string;
+  username: string | null;
+  avatarUrl: string | null;
+  telegramUserId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TelegramIdentityProfile {
+  id: string;
+  telegramUserId: string;
+  firstName: string;
+  lastName: string | null;
+  username: string | null;
+  photoUrl: string | null;
+  languageCode: string | null;
+  isPremium: boolean;
+  lastAuthProvider: AuthProvider;
+  lastAuthenticatedAt: string;
+}
+
+export interface AuthSession {
+  id: string;
+  tokenId: string;
+  userId: string;
+  provider: AuthProvider;
+  launchMode: AuthLaunchMode;
+  issuedAt: string;
+  expiresAt: string;
+  revokedAt: string | null;
+}
+
+export interface AuthenticatedActor {
+  user: AuthUser;
+  session: AuthSession;
+  telegramIdentity: TelegramIdentityProfile | null;
+}
+
+export type AuthSessionStatus =
+  | {
+      status: "anonymous";
+    }
+  | {
+      status: "authenticated";
+      actor: AuthenticatedActor;
+    };
+
+export interface TelegramMiniAppAuthExchangeRequest {
+  initData: string;
+}
+
+export interface TelegramLoginAuthExchangeRequest {
+  id: string;
+  firstName: string;
+  lastName?: string | null;
+  username?: string | null;
+  photoUrl?: string | null;
+  authDate: number;
+  hash: string;
+}
+
 export interface RuntimeHealthSnapshot {
   appName: string;
   serviceId: RuntimeServiceId;
@@ -186,5 +253,20 @@ export function createBootstrapManifest(): BootstrapManifest {
       label: IMPORT_SOURCE_LABELS[source],
     })),
     services: RUNTIME_SERVICE_LIST,
+  };
+}
+
+export function createAnonymousAuthSessionStatus(): AuthSessionStatus {
+  return {
+    status: "anonymous",
+  };
+}
+
+export function createAuthenticatedAuthSessionStatus(
+  actor: AuthenticatedActor,
+): AuthSessionStatus {
+  return {
+    status: "authenticated",
+    actor,
   };
 }

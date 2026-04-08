@@ -151,6 +151,87 @@ body {
   min-height: 128px;
 }
 
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 196px;
+}
+
+.auth-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.auth-badge-loading,
+.auth-badge-signing-in,
+.auth-badge-logging-out {
+  background: rgba(214, 123, 56, 0.12);
+  color: var(--accent-soft);
+}
+
+.auth-badge-ready {
+  background: rgba(31, 111, 80, 0.12);
+  color: var(--accent);
+}
+
+.auth-badge-error {
+  background: rgba(143, 46, 46, 0.12);
+  color: #8f2e2e;
+}
+
+.auth-copy {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.auth-copy-secondary,
+.auth-note,
+.auth-error {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.auth-error {
+  color: #8f2e2e;
+}
+
+.widget-host {
+  min-height: 50px;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #f8f1e7;
+  cursor: pointer;
+  font: inherit;
+}
+
+.action-button:hover {
+  background: #185b42;
+}
+
 .panel-kicker {
   display: inline-block;
   margin-bottom: 10px;

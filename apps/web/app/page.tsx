@@ -1,5 +1,6 @@
 import { createBootstrapManifest } from "@aux-player/domain";
 
+import { AuthEntryPanel } from "./components/auth-entry-panel";
 import { LaunchModePill } from "./components/launch-mode-pill";
 
 export default function HomePage() {
@@ -19,15 +20,28 @@ export default function HomePage() {
         </div>
         <div className="hero-meta">
           <LaunchModePill />
-          <article className="panel compact-panel">
-            <h2>What is live now</h2>
-            <ul>
-              <li>Shared domain contracts for import, library, and playback flows</li>
-              <li>API endpoints for service health and bootstrap manifest</li>
-              <li>Worker startup payload aligned with the same shared contracts</li>
-            </ul>
-          </article>
+          <AuthEntryPanel />
         </div>
+      </section>
+
+      <section className="grid">
+        <article className="panel compact-panel">
+          <h2>What is live now</h2>
+          <ul>
+            <li>Shared domain contracts for import, library, playback, and auth flows</li>
+            <li>Telegram-backed auth endpoints with persistent session records</li>
+            <li>Worker and web runtimes still aligned to the same shared foundation</li>
+          </ul>
+        </article>
+
+        <article className="panel compact-panel">
+          <h2>Current auth scope</h2>
+          <ul>
+            <li>Telegram Mini App initData exchange to server session</li>
+            <li>Browser Telegram login widget fallback</li>
+            <li>Session restore and logout wired through /api/auth/*</li>
+          </ul>
+        </article>
       </section>
 
       <section className="grid grid-three">
