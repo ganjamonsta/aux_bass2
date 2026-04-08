@@ -78,6 +78,15 @@ Telegram sign-in in the current preview also requires:
 - `TELEGRAM_BOT_TOKEN`
 - `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`
 
+For browser fallback login, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` must be the bot username without `@`.
+
+If the API runs in Docker, `DATABASE_URL` must point to a database address reachable from inside the container. `localhost` points to the container itself, not to the Docker host.
+
+Examples:
+
+- external database host: `postgresql://postgres:password@YOUR_DB_HOST:5432/aux_player`
+- host machine database on Docker Desktop: `postgresql://postgres:password@host.docker.internal:5432/aux_player`
+
 If you want the Mini App to open from the bot itself, the bot must expose the app through a Telegram `web_app` button or menu button. Opening the site as a plain link inside Telegram will not provide Mini App `initData`, so automatic Telegram auth cannot happen.
 
 The deploy stack uses public ECR image mirrors instead of Docker Hub because Docker Hub pulls may be blocked from your server region.
