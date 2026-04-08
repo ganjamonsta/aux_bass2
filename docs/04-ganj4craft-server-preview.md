@@ -5,7 +5,8 @@
 - Domain: `aux.ganj4craft.ru`
 - Server OS: Debian 12
 - User: `ganjamonsta`
-- App location: `/opt/aux_player2`
+- Repository: `https://github.com/ganjamonsta/aux_bass2`
+- App location: `/opt/aux_bass2`
 
 ## DNS
 
@@ -17,8 +18,8 @@ SSH into the server and create the app directory:
 
 ```bash
 ssh ganjamonsta@YOUR_SERVER_IP
-sudo mkdir -p /opt/aux_player2
-sudo chown -R ganjamonsta:ganjamonsta /opt/aux_player2
+sudo mkdir -p /opt/aux_bass2
+sudo chown -R ganjamonsta:ganjamonsta /opt/aux_bass2
 ```
 
 Check Docker availability:
@@ -30,22 +31,28 @@ docker compose version
 
 If Docker is missing, install it first.
 
-## 2. Upload The Project
+## 2. Clone The Project
 
-From your local machine:
+On the server:
 
 ```bash
-scp -r s:/git/aux_player2/* ganjamonsta@YOUR_SERVER_IP:/opt/aux_player2/
+cd /opt
+git clone https://github.com/ganjamonsta/aux_bass2.git aux_bass2
 ```
 
-If you prefer git on the server, clone into `/opt/aux_player2` instead.
+If the directory already exists and it is already a git checkout, update it with:
+
+```bash
+cd /opt/aux_bass2
+git pull
+```
 
 ## 3. Create Environment File
 
 On the server:
 
 ```bash
-cd /opt/aux_player2
+cd /opt/aux_bass2
 cp .env.example .env
 ```
 
@@ -66,7 +73,7 @@ Everything else can stay placeholder for now because the current preview does no
 On the server:
 
 ```bash
-cd /opt/aux_player2
+cd /opt/aux_bass2
 bash deploy/up-preview.sh
 ```
 
@@ -75,7 +82,7 @@ bash deploy/up-preview.sh
 Check containers:
 
 ```bash
-cd /opt/aux_player2/deploy
+cd /opt/aux_bass2/deploy
 docker compose -f docker-compose.preview.yml ps
 ```
 
@@ -95,8 +102,9 @@ Open these URLs:
 When you change the code:
 
 ```bash
-cd /opt/aux_player2/deploy
-docker compose -f docker-compose.preview.yml up -d --build
+cd /opt/aux_bass2
+git pull
+bash deploy/up-preview.sh
 ```
 
 ## Notes
