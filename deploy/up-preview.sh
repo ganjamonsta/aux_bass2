@@ -3,4 +3,4 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-"${SCRIPT_DIR}/compose-preview.sh" up -d --build
+bash "${SCRIPT_DIR}/compose-preview.sh" up -d --build
