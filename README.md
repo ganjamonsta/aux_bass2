@@ -48,6 +48,7 @@ Greenfield rewrite of TG Player as a TypeScript monorepo.
 
 - Local preview: run `npm run dev:web` and open `http://localhost:3000`
 - Server preview with domain: follow `docs/03-preview-and-deploy.md`
+- Debian 12 server instructions for `aux.ganj4craft.ru`: follow `docs/04-ganj4craft-server-preview.md`
 
 ## Current Status
 

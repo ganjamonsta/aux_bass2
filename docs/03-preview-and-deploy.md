@@ -20,8 +20,8 @@ This repository now includes:
 
 The preview stack serves:
 
-- web app on `WEB_DOMAIN`
-- API on `API_DOMAIN`
+- web app on `DOMAIN`
+- API under `https://DOMAIN/api/*`
 - automatic HTTPS via Caddy
 
 ## Server Requirements
@@ -30,33 +30,26 @@ The preview stack serves:
 - A domain or subdomains already pointed to the server IP
 - Ports 80 and 443 open
 
-## Suggested Domain Layout
-
-- `app.your-domain.com` for the web client
-- `api.your-domain.com` for the API
-
 ## Deploy Steps
 
 1. Copy the repository to the server.
 2. Copy `.env.example` to `.env` and fill required values.
-3. Export domain variables before starting the stack:
+3. Set the domain inside `.env`:
 
-```bash
-export WEB_DOMAIN=app.example.com
-export API_DOMAIN=api.example.com
+```env
+DOMAIN=app.example.com
 ```
 
 1. Start the preview stack:
 
 ```bash
-cd deploy
-docker compose -f docker-compose.preview.yml up -d --build
+bash deploy/up-preview.sh
 ```
 
 ## Check The Result
 
 - Web: `https://app.example.com`
-- API health: `https://api.example.com/health`
+- API health: `https://app.example.com/api/health`
 
 ## Notes
 
