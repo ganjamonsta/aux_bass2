@@ -181,3 +181,4 @@ sudo systemctl reload nginx
 - Caddy will issue HTTPS certificates automatically when DNS is correct and ports `80/443` are open.
 - The API is intentionally mounted behind `/api/*` on the same domain.
 - This is a preview deployment for iterative development, not the final production topology.
+- Preview deploy scripts prune dangling Docker images after successful rebuilds, which helps avoid disk exhaustion on the 10 GB server.

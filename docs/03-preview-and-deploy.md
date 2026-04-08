@@ -58,3 +58,4 @@ bash deploy/up-preview.sh
 - The current UI is still the bootstrap shell, not the final product UI.
 - Database, Redis, object storage, and real auth are not wired yet.
 - This deploy path is for previewing the foundation and future iterations, not production launch.
+- Preview deploy scripts now prune dangling Docker images after successful rebuilds to limit disk growth on small servers.
