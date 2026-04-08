@@ -13,6 +13,7 @@ COPY . .
 RUN npm run build --workspace @aux-player/domain
 RUN npm run build --workspace @aux-player/telegram
 RUN npm run build --workspace @aux-player/api
+RUN npm prune --omit=dev
 
 FROM public.ecr.aws/docker/library/node:22-alpine AS runner
 WORKDIR /app

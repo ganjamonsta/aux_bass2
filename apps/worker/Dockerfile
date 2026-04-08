@@ -11,6 +11,7 @@ FROM deps AS builder
 COPY . .
 RUN npm run build --workspace @aux-player/domain
 RUN npm run build --workspace @aux-player/worker
+RUN npm prune --omit=dev
 
 FROM public.ecr.aws/docker/library/node:22-alpine AS runner
 WORKDIR /app
