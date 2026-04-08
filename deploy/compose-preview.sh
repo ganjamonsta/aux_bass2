@@ -3,21 +3,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+cd "${SCRIPT_DIR}"
 
 if docker compose version >/dev/null 2>&1; then
-  docker compose \
-    --project-directory "${ROOT_DIR}" \
-    -f "${SCRIPT_DIR}/docker-compose.preview.yml" \
-    "$@"
+  docker compose -f docker-compose.preview.yml "$@"
   exit 0
 fi
 
 if command -v docker-compose >/dev/null 2>&1; then
-  docker-compose \
-    --project-directory "${ROOT_DIR}" \
-    -f "${SCRIPT_DIR}/docker-compose.preview.yml" \
-    "$@"
+  docker-compose -f docker-compose.preview.yml "$@"
   exit 0
 fi
 
