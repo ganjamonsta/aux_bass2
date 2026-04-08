@@ -1,13 +1,18 @@
-import { APP_NAME } from "@aux-player/domain";
+import {
+  createBootstrapManifest,
+  createRuntimeHealthSnapshot,
+} from "@aux-player/domain";
 
 function bootstrap() {
-  const startedAt = new Date().toISOString();
+  const health = createRuntimeHealthSnapshot("worker");
+  const manifest = createBootstrapManifest();
 
   console.log(
     JSON.stringify({
-      service: `${APP_NAME} Worker`,
+      ...health,
       status: "bootstrapped",
-      startedAt,
+      boundedContexts: manifest.boundedContexts,
+      firstWaveImportSources: manifest.firstWaveImportSources,
     }),
   );
 }
