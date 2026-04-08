@@ -26,10 +26,15 @@ Check Docker availability:
 
 ```bash
 docker --version
-docker compose version
+docker compose version || docker-compose --version
 ```
 
-If Docker is missing, install it first.
+If Docker is missing, install it first. If `docker compose` is unavailable but `docker-compose` is also missing, install `docker-compose` on Debian:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y docker-compose
+```
 
 ## 2. Clone The Project
 
@@ -82,14 +87,14 @@ bash deploy/up-preview.sh
 Check containers:
 
 ```bash
-cd /opt/aux_bass2/deploy
-docker compose -f docker-compose.preview.yml ps
+cd /opt/aux_bass2
+bash deploy/compose-preview.sh ps
 ```
 
 Check logs if needed:
 
 ```bash
-docker compose -f docker-compose.preview.yml logs -f caddy web api
+bash deploy/compose-preview.sh logs -f caddy web api
 ```
 
 Open these URLs:
